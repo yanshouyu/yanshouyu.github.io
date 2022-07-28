@@ -31,3 +31,7 @@ Start taking notes from halfway in chapter 2. Notes will be in a loose format.
   * `__missing__(k)` and `default_factory`. The `default_factory` is called by `__missing__(k)` to generate a `v` and then the `k, v` is added as an item.
   * `__getitem__` (`dd[k]`) can invoke `default_factory` via `__missing__`, but `get` doesn't.
 * `collections.UserDict` is what to inherit when customizing mapping type. Its `data` is a `dict`. 
+* "Python’s default behavior is to store instance attributes in a special `__dict__` attribute."
+* `frozenset` is hashable
+* `dict_keys` and `dict_items` objects also support set operators: &, |, -, ^
+  * ^: symmetric difference: (a|b) - (a&b)
