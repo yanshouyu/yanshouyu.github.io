@@ -35,3 +35,51 @@ Start taking notes from halfway in chapter 2. Notes will be in a loose format.
 * `frozenset` is hashable
 * `dict_keys` and `dict_items` objects also support set operators: &, |, -, ^
   * ^: symmetric difference: (a|b) - (a&b)
+
+## Chapter 4. Unicode Text Versus Bytes
+
+Terms
+* Code point: a number for a character.
+* Encode: string to binary sequences.
+* Decode: binary sequences to string.
+
+UTF-8 is the default source encoding for Python 3.
+
+The python library `chardetect` guesses encoding. It also has a command line entrypoint.
+
+For encodings using more than 1 byte, e.g. UTF-16, byte order is an issue. For UTF-16, a BOM (byte-order mark) is placed at the beginning of encoded bytes to tell the byte order. Little-endian byte ordering has the least significant byte first. Big-endian the opposite. Codec *UTF-16LE* is explicitly little-endian.
+
+The "Unicode sandwich": decode as early as possible -> process by business logic in `str` -> encode as late as possible. Python `open()` built-in handles text files in this way, e.g. the `file.read()` returns `str`.
+
+`isatty()`: method to determine if the `_io.TextIOWrapper` instance is an 'interactive' stream.
+
+```python
+>>> sys.stderr.encoding
+'utf-8'
+>>> sys.stdout.isatty()
+True
+```
+
+Unicode literal: the "name" of unicode char. Specify unicode literal in `'\N{}'`. E.g. `'\N{INFINITY}'`: ∞; `'\N{CIRCLED NUMBER FORTY TWO}'`: ㊷.  
+*Combining characters*: marks add to preceding character. E.g. `'A\N{COMBINING ACUTE ACCENT}'`: Á.
+
+```python
+>>> chr(99)
+'c'
+>>> ord('c')
+99
+>>> chr(0x1F638)
+'😸'
+>>> import unicodedata
+>>> unicodedata.name(chr(0x1F638))
+'GRINNING CAT FACE WITH SMILING EYES'
+>>> print('\N{ROMAN NUMERAL TWELVE}')
+Ⅻ
+>>> unicodedata.numeric('\N{ROMAN NUMERAL TWELVE}')
+12.0
+```
+
+
+Sort non-ASCII text
+- (not recommended) use `locale.strxfrm` as key in sorting. Locale can be returned by `locale.setlocale`. Warning: this is a global setting.
+- (recommended) use `pyuca.Collator.sort_key`. UCA stands for *Unicode Collation Algorithm*.
