@@ -83,3 +83,56 @@ Unicode literal: the "name" of unicode char. Specify unicode literal in `'\N{}'`
 Sort non-ASCII text
 - (not recommended) use `locale.strxfrm` as key in sorting. Locale can be returned by `locale.setlocale`. Warning: this is a global setting.
 - (recommended) use `pyuca.Collator.sort_key`. UCA stands for *Unicode Collation Algorithm*.
+
+## Chapter 5. Data Class Builders
+
+- `collections.namedtuple`. Can be used dynamicly. Light-weighted.
+- `typing.NamedTuple`. Used for class construction. Child class of a tuple.
+- `@dataclasses.dataclass`
+
+To construct a dict from a dataclass (`dataclasses.dataclass` decorated object), use `dataclasses.asdict`.
+
+Type hints are not enforced. They have no impact on the runtime behavior:
+```
+>>> def func(a: str):
+...     print(f'{a} here')
+... 
+>>> func("str")
+str here
+>>> func(32)
+32 here
+```
+
+`@dataclass` tips:
+- Make good use of class variable - not all vars should belong to the instance. In the example code the class variable is designed to be a global var. (`cls = self.__class__`)
+- A pseudotype `typing.ClassVar` can be used to indicate which field is a class variable.
+- `__post_init__` method to manipulate / add more variables after the `__init__`.
+- Init-only variables: args passed to instance initialization but not designed to be instance fields. Such variables should be declared as the pseudotype `dataclasses.InitVar`. Init-only variables are also passed to `__post_init__`.
+
+> "The main idea of object-oriented programming is to *place the behavior and data together* in the same code unit: a class."
+
+Serialize dataclass into dict:
+- `collections.namedtuple`: `._asdict()`
+- `typing.NamedTuple`: `._asdict()`
+- `@dataclasses.dataclass`: `.asdict()`
+
+`match case` pattern matching class instances:
+```python
+# simple class patterns on built-in types
+match x:
+    case float():    # with () indicates a class pattern
+        do_something_with(x)
+
+# keyword class pattern
+match x:
+    # match the x_arg1 and collect value of x_arg2
+    case ClassX(x_arg1="blabla", x_arg2=foo):
+        do_something_with(foo)
+
+# position class pattern
+match x:
+    # match 1st arg, collect 3rd arg
+    case ClassX("foo", _, bar):
+        do_something_with(bar)
+```
+Class pattern matching relies on class attribute `__match_args__`.
