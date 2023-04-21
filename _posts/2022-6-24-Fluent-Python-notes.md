@@ -136,3 +136,17 @@ match x:
         do_something_with(bar)
 ```
 Class pattern matching relies on class attribute `__match_args__`.
+
+## Chapter 6. Object References, Mutability, and Recycling
+
+By saying *shallow copy* we are referring to just duplicate the **outer-most container**.
+
+Default shallow copy of a list: `alst = list(blst)` or `alst = blst[:]`. The newly created object has different id, but if it contains mutable object, these inner references are the same.
+
+Deep copy by `deepcopy` method in `copy` module.
+
+Mode of parameter passing in Python is *call by sharing* - each parameter gets a copy of each **reference** in the arguments.
+
+Why using mutable types as parameter defaults is a bad idea: every action on the default affects the `__defaults__` instance. A solution is to use `None` as default value for mutable arguments. When the parameter is `None`, initiate a new mutable parameter so that its reference is not shared.
+
+> The `==` operator compares object values; `is` compares references.
