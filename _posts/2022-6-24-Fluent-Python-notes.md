@@ -1,11 +1,13 @@
 ---
 layout: post
-title: "Book notes: Fluent Python, 2nd edition"
+title: "Book notes: Fluent Python, 2nd edition. Part 1 - Data Structures"
 ---
 
 It's been a long time since I last updates the blog. A lot of things have happened. Time to carry on.
 
 Start taking notes from halfway in chapter 2. Notes will be in a loose format.
+
+# Part 1 - Data Structures
 
 ## Chapter 2. An Array of Sequences
 
