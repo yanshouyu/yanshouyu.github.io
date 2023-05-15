@@ -96,3 +96,20 @@ Type variable can be used when we want to refer the same parameter type to the r
 Subclassing a `typing.Protocol` and define supported methods. Then this subclass can be used as `bound` in defining a `TypeVar`.
 
 #### Callable
+
+`Callable` is in `collections.abc` module since Python 3.9. 
+
+The `Callable` syntax is `Callable[[ParameterType1, ParameterType2], ReturnedType]`. ParameterType list can have zero (no parameter) or more types. It can also be `...` (`Callable[..., ReturnedType]`), meaning the parameter types are not specified.
+
+#### NoReturn
+
+`NoReturn` is a special type annotation on return type of functions that do not return, e.g. `sys.exit()`.
+
+### Annotating positional and keyword parameters
+
+For arbitrary positional parameters (`*args`), if all `args` should be `str`, we can type hint them as `*args: str`.
+
+Similarly, for arbitrary keyword parameters (`**kwargs`), use `**kwargs: float` because the keys in `kwargs` can only be `str`.
+
+For >1 types, use `Union[]` or `Any`.
+
